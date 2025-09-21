@@ -3,7 +3,7 @@ import time
 
 st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="wide")
 
-# Dark theme CSS, full-page centering
+# Dark theme CSS
 st.markdown(
     """
     <style>
@@ -11,7 +11,7 @@ st.markdown(
         height: 100%;
         margin: 0;
         background-color: #0b0b0c;
-        color: #FFFFFF;
+        color: #e5e5e5;
         font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
     .main {
@@ -22,12 +22,16 @@ st.markdown(
         height: 100vh;
         text-align: center;
     }
+    label, .stNumberInput label {
+        color: #ffffff !important;
+        font-size: 16px;
+    }
     input[type=number], .stTextInput>div>input {
         height: 48px;
         font-size: 18px;
         text-align: center;
-        background: #141516;
-        color: #fff;
+        background: #1c1c1e;
+        color: #ffffff;
         border: 1px solid rgba(255,255,255,0.2);
         border-radius: 8px;
     }
@@ -44,20 +48,26 @@ st.markdown(
     .outputs {
         display: flex;
         justify-content: center;
-        gap: 40px;
+        gap: 60px;
         margin-top: 20px;
     }
     .tp { color: #2ecc71; font-size: 2em; font-weight: 700; }
     .sl { color: #ff6b6b; font-size: 2em; font-weight: 700; }
+    .results-title { 
+        margin-top: 30px; 
+        font-size: 20px; 
+        font-weight: 600; 
+        color: #9aa0a6;
+    }
     </style>
     """, unsafe_allow_html=True
 )
 
-# Wrapper div to center all content
+# Wrapper div
 st.markdown('<div class="main">', unsafe_allow_html=True)
 
 # Title
-st.markdown("<h1>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='color:white;'>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
 st.markdown("<p style='color:#9aa0a6;'>Enter your trade details and press <b>Calculate</b></p>", unsafe_allow_html=True)
 
 # Inputs
@@ -83,9 +93,11 @@ else:
         tp_price = entry_price * (1 + price_change_pct)
         sl_price = entry_price * (1 - price_change_pct)
 
+        # Subtitle
+        st.markdown('<div class="results-title">📊 Results</div>', unsafe_allow_html=True)
+
         # Animated output (side by side)
         tp_ph = st.empty()
-        sl_ph = st.empty()
 
         steps = 18
         for i in range(1, steps + 1):
