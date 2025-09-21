@@ -1,7 +1,15 @@
 import streamlit as st
 
 st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="centered")
-st.title("💹 Trade Profit Calculator")
+
+# --- Title with image instead of emoji ---
+st.markdown("""
+<h1 style='text-align:center;'>
+    <img src="https://i.scdn.co/image/ab67616d00001e02dc9b911f1b9a866eba18d1a6" 
+         style="height:32px; vertical-align:middle;"> 
+    Trade Profit Calculator
+</h1>
+""", unsafe_allow_html=True)
 
 # --- Centered inputs with narrower boxes ---
 col1, col2 = st.columns(2)
@@ -45,7 +53,7 @@ if st.button("Calculate"):
         res_col2.metric("💡 Position size", f"€{position_size:.2f}")
         res_col3.metric("💡 Change needed", f"{price_change_pct*100:.2f}%")
 
-        # Custom styled TP and SL with bigger numbers, single line, no (TP)/(SL)
+        # Custom styled TP and SL with bigger numbers, single line, colored
         res_col4.markdown(f"""
         <div style="text-align:center;">
             <span style="font-size:18px; font-weight:600; color: #2ecc71;">🎯 Take-Profit:</span>
