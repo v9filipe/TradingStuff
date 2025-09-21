@@ -1,6 +1,6 @@
 import streamlit as st
 
-st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="centered")
+st.set_page_config(page_title="v9's Lil Demon V", page_icon="💹", layout="centered")
 
 # --- Full black background ---
 st.markdown(
