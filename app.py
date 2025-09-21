@@ -20,7 +20,7 @@ st.markdown("""
 <h1 style='text-align:center;'>
     <img src="https://i.scdn.co/image/ab67616d00001e02dc9b911f1b9a866eba18d1a6" 
          style="height:48px; vertical-align:middle;"> 
-    Trade Profit Calculator
+    v9's Lil Demon V
 </h1>
 """, unsafe_allow_html=True)
 
