@@ -3,18 +3,24 @@ import time
 
 st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="wide")
 
-# Dark theme CSS, center alignment
+# Dark theme CSS, full-page centering
 st.markdown(
     """
     <style>
-    body {
+    html, body, [class*="css"] {
+        height: 100%;
+        margin: 0;
         background-color: #0b0b0c;
         color: #FFFFFF;
         font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-        text-align: center;
     }
-    .stNumberInput, .stTextInput {
-        margin: 0 auto !important;
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        text-align: center;
     }
     input[type=number], .stTextInput>div>input {
         height: 48px;
@@ -35,17 +41,26 @@ st.markdown(
         margin: 18px auto;
         display: block;
     }
-    .tp { color: #2ecc71; font-size: 2em; font-weight: 700; margin: 14px 0; }
-    .sl { color: #ff6b6b; font-size: 2em; font-weight: 700; margin: 14px 0; }
+    .outputs {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+    }
+    .tp { color: #2ecc71; font-size: 2em; font-weight: 700; }
+    .sl { color: #ff6b6b; font-size: 2em; font-weight: 700; }
     </style>
     """, unsafe_allow_html=True
 )
 
-# Title
-st.markdown("<h1 style='text-align:center;'>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
-st.markdown("<p style='text-align:center; color:#9aa0a6;'>Enter your trade details and press <b>Calculate</b></p>", unsafe_allow_html=True)
+# Wrapper div to center all content
+st.markdown('<div class="main">', unsafe_allow_html=True)
 
-# Inputs centered
+# Title
+st.markdown("<h1>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
+st.markdown("<p style='color:#9aa0a6;'>Enter your trade details and press <b>Calculate</b></p>", unsafe_allow_html=True)
+
+# Inputs
 margin = st.number_input("Margin (€)", min_value=1.0, step=1.0, value=100.0, key="margin")
 profit_target = st.number_input("Desired profit (€)", min_value=1.0, step=1.0, value=50.0, key="profit")
 entry_price = st.number_input("Entry price", min_value=0.0001, step=0.0001, format="%.4f", value=1.45, key="entry")
@@ -53,38 +68,45 @@ leverage_input = st.number_input("Leverage (1× - 500×)", min_value=1.0, max_va
 
 calculate = st.button("Calculate")
 
-# Output in center
+# Output
 if not st.session_state.get("calculated", False) and not calculate:
-    st.markdown('<div style="color:#9aa0a6; text-align:center;">Results will appear here after you press <b>Calculate</b>.</div>', unsafe_allow_html=True)
+    st.markdown('<div style="color:#9aa0a6;">Results will appear here after you press <b>Calculate</b>.</div>', unsafe_allow_html=True)
 else:
     if calculate:
         st.session_state["calculated"] = True
-        st.session_state["margin"] = margin
-        st.session_state["profit_target"] = profit_target
-        st.session_state["entry_price"] = entry_price
-        st.session_state["leverage_input"] = leverage_input
 
-    margin_v = st.session_state.get("margin", margin)
-    profit_v = st.session_state.get("profit_target", profit_target)
-    entry_v = st.session_state.get("entry_price", entry_price)
-    leverage_v = st.session_state.get("leverage_input", leverage_input)
-
-    if margin_v <= 0 or profit_v <= 0 or entry_v <= 0 or leverage_v <= 0:
+    if margin <= 0 or profit_target <= 0 or entry_price <= 0 or leverage_input <= 0:
         st.error("Please enter valid positive numbers!")
     else:
-        position_size = margin_v * leverage_v
-        price_change_pct = profit_v / position_size
-        tp_price = entry_v * (1 + price_change_pct)
-        sl_price = entry_v * (1 - price_change_pct)
+        position_size = margin * leverage_input
+        price_change_pct = profit_target / position_size
+        tp_price = entry_price * (1 + price_change_pct)
+        sl_price = entry_price * (1 - price_change_pct)
 
+        # Animated output (side by side)
         tp_ph = st.empty()
         sl_ph = st.empty()
+
         steps = 18
         for i in range(1, steps + 1):
             factor = i / steps
-            tp_ph.markdown(f'<div class="tp">🎯 TP: {entry_v * (1 + price_change_pct * factor):.4f}</div>', unsafe_allow_html=True)
-            sl_ph.markdown(f'<div class="sl">🛑 SL: {entry_v * (1 - price_change_pct * factor):.4f}</div>', unsafe_allow_html=True)
+            tp_val = entry_price * (1 + price_change_pct * factor)
+            sl_val = entry_price * (1 - price_change_pct * factor)
+            html = f"""
+            <div class="outputs">
+                <div class="tp">🎯 TP: {tp_val:.4f}</div>
+                <div class="sl">🛑 SL: {sl_val:.4f}</div>
+            </div>
+            """
+            tp_ph.markdown(html, unsafe_allow_html=True)
             time.sleep(0.02)
 
-        tp_ph.markdown(f'<div class="tp">🎯 TP: {tp_price:.4f}</div>', unsafe_allow_html=True)
-        sl_ph.markdown(f'<div class="sl">🛑 SL: {sl_price:.4f}</div>', unsafe_allow_html=True)
+        final_html = f"""
+        <div class="outputs">
+            <div class="tp">🎯 TP: {tp_price:.4f}</div>
+            <div class="sl">🛑 SL: {sl_price:.4f}</div>
+        </div>
+        """
+        tp_ph.markdown(final_html, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
