@@ -38,40 +38,11 @@ if st.button("Calculate"):
         tp_price = entry_price * (1 + price_change_pct)
         sl_price = entry_price * (1 - price_change_pct)
 
-        # --- Display results side by side with custom sizes ---
+        # --- Display results side by side ---
         res_col1, res_col2, res_col3, res_col4, res_col5 = st.columns(5)
 
-        res_col1.markdown(f"""
-        <div style='text-align:center;'>
-            <div style='font-size:18px; font-weight:600;'>💡 Leverage used</div>
-            <div style='font-size:16px;'>{leverage}×</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        res_col2.markdown(f"""
-        <div style='text-align:center;'>
-            <div style='font-size:18px; font-weight:600;'>💡 Position size</div>
-            <div style='font-size:16px;'>€{position_size:.2f}</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        res_col3.markdown(f"""
-        <div style='text-align:center;'>
-            <div style='font-size:18px; font-weight:600;'>💡 Required price change</div>
-            <div style='font-size:16px;'>{price_change_pct*100:.2f}%</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        res_col4.markdown(f"""
-        <div style='text-align:center;'>
-            <div style='font-size:18px; font-weight:600;'>🎯 Take-Profit (TP)</div>
-            <div style='font-size:16px;'>{tp_price:.4f}</div>
-        </div>
-        """, unsafe_allow_html=True)
-
-        res_col5.markdown(f"""
-        <div style='text-align:center;'>
-            <div style='font-size:18px; font-weight:600;'>🛑 Stop-Loss (SL)</div>
-            <div style='font-size:16px;'>{sl_price:.4f}</div>
-        </div>
-        """, unsafe_allow_html=True)
+        res_col1.metric("💡 Leverage used", f"{leverage}×")
+        res_col2.metric("💡 Position size", f"€{position_size:.2f}")
+        res_col3.metric("💡 Required price change", f"{price_change_pct*100:.2f}%")
+        res_col4.metric("🎯 Take-Profit (TP)", f"{tp_price:.4f}")
+        res_col5.metric("🛑 Stop-Loss (SL)", f"{sl_price:.4f}")
