@@ -17,6 +17,8 @@ body {
     padding: 30px;
     margin: 10px 0;
     box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    color: white;
+    text-align: center;
 }
 .stButton>button {
     background-color: #4CAF50;
@@ -52,8 +54,8 @@ h1, h3 {
 # Page title
 st.markdown("<h1 style='text-align:center'>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
 
-# Two columns: Inputs | Trade Info
-col_input, col_output = st.columns([1, 1])
+# Input box
+col_input, col_output = st.columns([1,1])
 
 with col_input:
     st.markdown("<div class='box'>", unsafe_allow_html=True)
@@ -71,14 +73,7 @@ with col_input:
     calculate = st.button("Calculate")
     st.markdown("</div>", unsafe_allow_html=True)
 
-with col_output:
-    st.markdown("<div class='box'>", unsafe_allow_html=True)
-    st.markdown("<h3>📊 Trade Info</h3>", unsafe_allow_html=True)
-    tp_placeholder = st.empty()
-    sl_placeholder = st.empty()
-    st.markdown("</div>", unsafe_allow_html=True)
-
-# Calculate and animate
+# Output box only after clicking "Calculate"
 if calculate:
     if margin <= 0 or profit_target <= 0 or entry_price <= 0 or leverage_input <= 0:
         st.error("Please enter valid positive numbers!")
@@ -87,9 +82,15 @@ if calculate:
         tp_price = entry_price * (1 + price_change_pct)
         sl_price = entry_price * (1 - price_change_pct)
 
-        steps = 20
-        for i in range(1, steps+1):
-            factor = i / steps
-            tp_placeholder.markdown(f"<div class='tp-text'>🎯 TP: {entry_price*(1 + price_change_pct*factor):.4f}</div>", unsafe_allow_html=True)
-            sl_placeholder.markdown(f"<div class='sl-text'>🛑 SL: {entry_price*(1 - price_change_pct*factor):.4f}</div>", unsafe_allow_html=True)
-            time.sleep(0.03)
+        with col_output:
+            st.markdown("<div class='box'>", unsafe_allow_html=True)
+            st.markdown("<h3>📊 Trade Info</h3>", unsafe_allow_html=True)
+            tp_placeholder = st.empty()
+            sl_placeholder = st.empty()
+            steps = 20
+            for i in range(1, steps+1):
+                factor = i / steps
+                tp_placeholder.markdown(f"<div class='tp-text'>🎯 TP: {entry_price*(1 + price_change_pct*factor):.4f}</div>", unsafe_allow_html=True)
+                sl_placeholder.markdown(f"<div class='sl-text'>🛑 SL: {entry_price*(1 - price_change_pct*factor):.4f}</div>", unsafe_allow_html=True)
+                time.sleep(0.03)
+            st.markdown("</div>", unsafe_allow_html=True)
