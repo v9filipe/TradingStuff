@@ -3,22 +3,20 @@ import time
 
 st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="wide")
 
-# CSS for glassmorphism and centered content
+# CSS for clean dark theme
 st.markdown("""
 <style>
 body {
-    background: linear-gradient(135deg, #1e1e2f, #2c3e50);
+    background-color: #121212;
+    color: #ffffff;
     font-family: 'Arial', sans-serif;
 }
-.glass-box {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.2);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    text-align: center;
+.box {
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 10px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 .stButton>button {
     background-color: #4CAF50;
@@ -27,35 +25,38 @@ body {
     width: 100%;
     font-size: 18px;
     border-radius: 12px;
-    transition: all 0.3s;
+    transition: all 0.2s;
 }
 .stButton>button:hover {
     background-color: #45a049;
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 .tp-text {
     color: #2ecc71;
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: bold;
     margin: 20px 0;
 }
 .sl-text {
     color: #e74c3c;
-    font-size: 1.8em;
+    font-size: 2em;
     font-weight: bold;
     margin: 20px 0;
+}
+h1, h3 {
+    color: #ffffff;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# Title
-st.markdown("<h1 style='text-align:center; color:white;'>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
+# Page title
+st.markdown("<h1 style='text-align:center'>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
 
 # Two columns: Inputs | Trade Info
-col_input, col_output = st.columns([1,1])
+col_input, col_output = st.columns([1, 1])
 
 with col_input:
-    st.markdown("<div class='glass-box'>", unsafe_allow_html=True)
+    st.markdown("<div class='box'>", unsafe_allow_html=True)
     st.markdown("<h3>⚡ Inputs</h3>", unsafe_allow_html=True)
     margin = st.number_input("💰 Margin (€)", min_value=1.0, step=1.0)
     profit_target = st.number_input("🎯 Desired profit (€)", min_value=1.0, step=1.0)
@@ -71,13 +72,13 @@ with col_input:
     st.markdown("</div>", unsafe_allow_html=True)
 
 with col_output:
-    st.markdown("<div class='glass-box'>", unsafe_allow_html=True)
+    st.markdown("<div class='box'>", unsafe_allow_html=True)
     st.markdown("<h3>📊 Trade Info</h3>", unsafe_allow_html=True)
     tp_placeholder = st.empty()
     sl_placeholder = st.empty()
     st.markdown("</div>", unsafe_allow_html=True)
 
-# Calculation and animation
+# Calculate and animate
 if calculate:
     if margin <= 0 or profit_target <= 0 or entry_price <= 0 or leverage_input <= 0:
         st.error("Please enter valid positive numbers!")
@@ -86,7 +87,6 @@ if calculate:
         tp_price = entry_price * (1 + price_change_pct)
         sl_price = entry_price * (1 - price_change_pct)
 
-        # Animate TP/SL with nicer style
         steps = 20
         for i in range(1, steps+1):
             factor = i / steps
