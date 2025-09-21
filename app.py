@@ -43,6 +43,6 @@ if st.button("Calculate"):
 
         res_col1.metric("💡 Leverage used", f"{leverage}×")
         res_col2.metric("💡 Position size", f"€{position_size:.2f}")
-        res_col3.metric("💡 Required price change", f"{price_change_pct*100:.2f}%")
+        res_col3.metric("💡 Change needed", f"{price_change_pct*100:.2f}%")
         res_col4.metric("🎯 Take-Profit (TP)", f"{tp_price:.4f}")
         res_col5.metric("🛑 Stop-Loss (SL)", f"{sl_price:.4f}")
