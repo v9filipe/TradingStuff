@@ -45,17 +45,15 @@ if st.button("Calculate"):
         res_col2.metric("💡 Position size", f"€{position_size:.2f}")
         res_col3.metric("💡 Change needed", f"{price_change_pct*100:.2f}%")
 
-        # Custom styled TP and SL
+        # Custom styled TP and SL (single line)
         res_col4.markdown(f"""
         <div style="text-align:center; color: #2ecc71; font-weight:600;">
-            🎯 Take-Profit (TP)<br>
-            <span style="font-size:16px;">{tp_price:.4f}</span>
+            🎯 Take-Profit (TP): <span style="font-size:16px;">{tp_price:.4f}</span>
         </div>
         """, unsafe_allow_html=True)
 
         res_col5.markdown(f"""
         <div style="text-align:center; color: #ff6b6b; font-weight:600;">
-            🛑 Stop-Loss (SL)<br>
-            <span style="font-size:16px;">{sl_price:.4f}</span>
+            🛑 Stop-Loss (SL): <span style="font-size:16px;">{sl_price:.4f}</span>
         </div>
         """, unsafe_allow_html=True)
