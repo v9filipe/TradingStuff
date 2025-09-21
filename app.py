@@ -2,11 +2,24 @@ import streamlit as st
 
 st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="centered")
 
-# --- Title with image instead of emoji ---
+# --- Full black background ---
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background-color: #000000;
+        color: #ffffff;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# --- Title with bigger image ---
 st.markdown("""
 <h1 style='text-align:center;'>
     <img src="https://i.scdn.co/image/ab67616d00001e02dc9b911f1b9a866eba18d1a6" 
-         style="height:32px; vertical-align:middle;"> 
+         style="height:48px; vertical-align:middle;"> 
     Trade Profit Calculator
 </h1>
 """, unsafe_allow_html=True)
@@ -57,13 +70,13 @@ if st.button("Calculate"):
         res_col4.markdown(f"""
         <div style="text-align:center;">
             <span style="font-size:18px; font-weight:600; color: #2ecc71;">🎯 Take-Profit:</span>
-            <span style="font-size:20px; font-weight:600; color: #2ecc71;"> {tp_price:.4f}</span>
+            <span style="font-size:22px; font-weight:600; color: #2ecc71;"> {tp_price:.4f}</span>
         </div>
         """, unsafe_allow_html=True)
 
         res_col5.markdown(f"""
         <div style="text-align:center;">
             <span style="font-size:18px; font-weight:600; color: #ff6b6b;">🛑 Stop-Loss:</span>
-            <span style="font-size:20px; font-weight:600; color: #ff6b6b;"> {sl_price:.4f}</span>
+            <span style="font-size:22px; font-weight:600; color: #ff6b6b;"> {sl_price:.4f}</span>
         </div>
         """, unsafe_allow_html=True)
