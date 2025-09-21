@@ -3,7 +3,7 @@ import time
 
 st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="wide")
 
-# CSS for clean dark theme
+# CSS for dark theme and styling
 st.markdown("""
 <style>
 body {
@@ -54,26 +54,24 @@ h1, h3 {
 # Page title
 st.markdown("<h1 style='text-align:center'>💹 Trade Profit Calculator</h1>", unsafe_allow_html=True)
 
-# Input box
+# Columns for Inputs and Outputs
 col_input, col_output = st.columns([1,1])
 
+# Input Box
 with col_input:
     st.markdown("<div class='box'>", unsafe_allow_html=True)
     st.markdown("<h3>⚡ Inputs</h3>", unsafe_allow_html=True)
-    margin = st.number_input("💰 Margin (€)", min_value=1.0, step=1.0)
-    profit_target = st.number_input("🎯 Desired profit (€)", min_value=1.0, step=1.0)
-    entry_price = st.number_input("📍 Entry price", min_value=0.0001, step=0.0001, format="%.4f")
+
+    margin = st.number_input("", min_value=1.0, step=1.0, placeholder="💰 Margin (€)")
+    profit_target = st.number_input("", min_value=1.0, step=1.0, placeholder="🎯 Desired profit (€)")
+    entry_price = st.number_input("", min_value=0.0001, step=0.0001, format="%.4f", placeholder="📍 Entry price")
     leverage_input = st.number_input(
-        "⚡ Leverage (1× - 500×)",
-        min_value=1.0,
-        max_value=500.0,
-        value=1.0,
-        step=0.1
+        "", min_value=1.0, max_value=500.0, value=1.0, step=0.1, placeholder="⚡ Leverage (1× - 500×)"
     )
     calculate = st.button("Calculate")
     st.markdown("</div>", unsafe_allow_html=True)
 
-# Output box only after clicking "Calculate"
+# Output Box (only appears after calculation)
 if calculate:
     if margin <= 0 or profit_target <= 0 or entry_price <= 0 or leverage_input <= 0:
         st.error("Please enter valid positive numbers!")
@@ -87,6 +85,7 @@ if calculate:
             st.markdown("<h3>📊 Trade Info</h3>", unsafe_allow_html=True)
             tp_placeholder = st.empty()
             sl_placeholder = st.empty()
+            
             steps = 20
             for i in range(1, steps+1):
                 factor = i / steps
