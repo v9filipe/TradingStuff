@@ -3,17 +3,10 @@ import time
 
 st.set_page_config(page_title="Trade Profit Calculator", page_icon="💹", layout="wide")
 
-# Dark theme CSS
+# Minimal CSS – let Streamlit dark mode handle background
 st.markdown(
     """
     <style>
-    html, body, [class*="css"] {
-        height: 100%;
-        margin: 0;
-        background-color: #0b0b0c;
-        color: #e5e5e5;
-        font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
     .main {
         display: flex;
         flex-direction: column;
@@ -23,8 +16,8 @@ st.markdown(
         text-align: center;
     }
     label, .stNumberInput label {
-        color: #ffffff !important;
         font-size: 16px;
+        color: #ffffff !important;
     }
     input[type=number], .stTextInput>div>input {
         height: 48px;
